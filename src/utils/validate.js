@@ -14,8 +14,14 @@ export function isExternal(path) {
  * @param {string} str
  * @returns {Boolean}
  */
+// 检验用户名
 export function validUsername(str) {
-  const valid_map = ['admin', 'editor']
+  const valid_map = ['600']
+  return valid_map.indexOf(str.trim()) >= 0
+}
+// 检验密码
+export function validPassword(str) {
+  const valid_map = ['199600']
   return valid_map.indexOf(str.trim()) >= 0
 }
 

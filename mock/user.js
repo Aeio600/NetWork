@@ -1,5 +1,8 @@
 
 const tokens = {
+  600: {
+    token: 'admin-token'
+  },
   admin: {
     token: 'admin-token'
   },
@@ -36,7 +39,7 @@ module.exports = [
       if (!token) {
         return {
           code: 60204,
-          message: 'Account and password are incorrect.'
+          message: '密码错误'
         }
       }
 

@@ -8,24 +8,21 @@
       autocomplete="on"
       label-position="left"
     >
-      <div class="title-container">
-        <h3 class="title">Login Form</h3>
+      <div>
+        <span
+          style="float: left; line-height: 40px; margin-right: 5px"
+        >Owner:</span>
+        <el-form-item prop="username" style="float: left; width: 210px">
+          <el-input
+            ref="username"
+            v-model="loginForm.username"
+            placeholder="Username"
+            name="username"
+            type="text"
+            tabindex="1"
+          />
+        </el-form-item>
       </div>
-
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          autocomplete="on"
-        />
-      </el-form-item>
 
       <el-tooltip
         v-model="capsTooltip"
@@ -33,72 +30,62 @@
         placement="right"
         manual
       >
-        <el-form-item prop="password">
-          <span class="svg-container">
-            <svg-icon icon-class="password" />
-          </span>
-          <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            placeholder="Password"
-            name="password"
-            tabindex="2"
-            autocomplete="on"
-            @keyup.native="checkCapslock"
-            @blur="capsTooltip = false"
-            @keyup.enter.native="handleLogin"
-          />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon
-              :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+        <div>
+          <span
+            style="
+              float: left;
+              margin-left: 100px;
+              line-height: 40px;
+              margin-right: 5px;
+            "
+          >passWord:</span>
+          <el-form-item
+            prop="password"
+            style="float: left; width: 210px; margin-right: 100px"
+          >
+            <el-input
+              :key="passwordType"
+              ref="password"
+              v-model="loginForm.password"
+              :type="passwordType"
+              placeholder="Password"
+              name="password"
+              tabindex="2"
+              autocomplete="on"
+              @keyup.native="checkCapslock"
+              @blur="capsTooltip = false"
+              @keyup.enter.native="handleLogin"
             />
-          </span>
-        </el-form-item>
+            <span class="show-pwd" @click="showPwd">
+              <svg-icon
+                :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+              />
+            </span>
+          </el-form-item>
+        </div>
       </el-tooltip>
 
       <el-button
         :loading="loading"
         type="primary"
-        style="width: 100%; margin-bottom: 30px"
+        style="margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >Login</el-button
-      >
-
-      <div style="position: relative">
-        <div class="tips">
-          <span>Username : admin111</span>
-          <span>Password : any</span>
-        </div>
-        <div class="tips">
-          <span style="margin-right: 18px">Username : editor</span>
-          <span>Password : any</span>
-        </div>
-
-        <el-button
-          class="thirdparty-button"
-          type="primary"
-          @click="showDialog = true"
-        >
-          Or connect with
-        </el-button>
-      </div>
+      >Are you ready?<br>Let us go!</el-button>
     </el-form>
 
     <el-dialog title="Or connect with" :visible.sync="showDialog">
       Can not be simulated on local, so please combine you own business
       simulation! ! !
-      <br />
-      <br />
-      <br />
+      <br>
+      <br>
+      <br>
       <social-sign />
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import { validUsername, validPassword } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
 
 export default {
@@ -107,22 +94,22 @@ export default {
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('您不是本人哦,无法开启笔记本'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+      if (!validPassword(value)) {
+        callback(new Error('密码错误'))
       } else {
         callback()
       }
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '600',
+        password: '1996'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -138,7 +125,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function (route) {
+      handler: function(route) {
         const query = route.query
         if (query) {
           this.redirect = query.redirect
@@ -189,7 +176,7 @@ export default {
               this.loading = false
             })
         } else {
-          console.log('error submit!!')
+          console.log('您不是本人哦,无法开启笔记本📒')
           return false
         }
       })
@@ -280,47 +267,16 @@ $light_gray: #eee;
   min-height: 100%;
   width: 100%;
   background-color: $bg;
+  background: url(../../assets/custom-theme/login.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
   overflow: hidden;
 
   .login-form {
-    position: relative;
-    width: 520px;
+    width: 900px;
     max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
+    margin: 180px 430px;
     overflow: hidden;
-  }
-
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
-  }
-
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
-  }
-
-  .title-container {
-    position: relative;
-
-    .title {
-      font-size: 26px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: bold;
-    }
   }
 
   .show-pwd {
