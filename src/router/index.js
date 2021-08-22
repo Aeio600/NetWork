@@ -1,16 +1,16 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-
-Vue.use(Router)
-
 /* Layout */
 import Layout from '@/layout'
-
+import tableListRouter from '@/module_km/todoList/router'
+import vueRouter from '@/module_km/vue/router'
+import Vue from 'vue'
+import Router from 'vue-router'
+import chartsRouter from './modules/charts'
 /* Router Modules */
 import componentsRouter from './modules/components'
-import chartsRouter from './modules/charts'
-import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
+import tableRouter from './modules/table'
+
+Vue.use(Router)
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -39,6 +39,10 @@ import nestedRouter from './modules/nested'
  * all roles can be accessed
  */
 export const constantRoutes = [
+  vueRouter,
+  tableListRouter,
+  tableRouter,
+
   {
     path: '/redirect',
     component: Layout,
@@ -188,7 +192,6 @@ export const asyncRoutes = [
   componentsRouter,
   chartsRouter,
   nestedRouter,
-  tableRouter,
 
   {
     path: '/example',

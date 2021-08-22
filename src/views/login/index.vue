@@ -94,7 +94,7 @@ export default {
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('您不是本人哦,无法开启笔记本'))
+        callback(new Error('让我康康是谁想翻我的笔记本'))
       } else {
         callback()
       }
